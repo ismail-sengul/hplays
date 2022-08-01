@@ -9,7 +9,7 @@ import java.util.Set;
 public class GameCompany {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "COMPANY_NAME")
@@ -21,7 +21,7 @@ public class GameCompany {
     @Column(name = "COMPANY_DESCRIPTION")
     private String companyDescription;
 
-    @OneToMany(mappedBy="gameCompany")
+    @OneToMany(mappedBy="gameCompany", cascade = CascadeType.ALL)
     private Set<Game> games;
 
     public Long getId() {

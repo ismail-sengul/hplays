@@ -22,16 +22,19 @@ public class GameCompanyServiceImpl implements GameCompanyService {
     }
 
     @Override
+    @Transactional
     public List<GameCompany> findAllGameCompanies() {
         return gameCompanyDao.findAllGameCompanies();
     }
 
     @Override
+    @Transactional
     public List<GameCompany> findGameCompaniesByName(String companyName) {
         return gameCompanyDao.findGameCompaniesByName(companyName);
     }
 
     @Override
+    @Transactional
     public GameCompany findGameCompanyById(Long id) {
         return gameCompanyDao.findGameCompanyById(id);
     }

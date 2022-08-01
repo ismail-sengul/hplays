@@ -102,7 +102,7 @@ public class GameCompanyController {
     }
 
     @RequestMapping(value = "/update" , method = RequestMethod.PUT)
-    public ResponseEntity<?> updateGameCompany(@RequestParam GameCompanyUpdateDTO gameCompanyUpdateDTO){
+    public ResponseEntity<?> updateGameCompany(@RequestBody GameCompanyUpdateDTO gameCompanyUpdateDTO){
         GameCompanySuccessDTO successDTO = new GameCompanySuccessDTO();
         GameCompany gameCompany = gameCompanyService.findGameCompanyById(gameCompanyUpdateDTO.getId());
 
@@ -119,10 +119,12 @@ public class GameCompanyController {
                 gameCompany.setFoundationYear(gameCompanyUpdateDTO.getFoundationYear());
             }
 
+            gameCompanyService.save(gameCompany);
             successDTO.setId(gameCompanyUpdateDTO.getId());
             successDTO.setCompanyDescription(gameCompanyUpdateDTO.getCompanyDescription());
             successDTO.setCompanyName(gameCompanyUpdateDTO.getCompanyName());
             successDTO.setFoundationYear(gameCompanyUpdateDTO.getFoundationYear());
+            successDTO.setMessage("Update işlemi başarılı.");
         }
         return ResponseEntity.ok(successDTO);
     }
@@ -140,6 +142,7 @@ public class GameCompanyController {
             successDTO.setCompanyName(gameCompany.getCompanyName());
             successDTO.setCompanyDescription(gameCompany.getCompanyDescription());
             successDTO.setId(gameCompany.getId());
+            successDTO.setMessage("Silme İşlemi Başarılı.");
         }
         return ResponseEntity.ok(successDTO);
     }

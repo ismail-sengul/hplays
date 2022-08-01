@@ -7,11 +7,20 @@ import java.util.Date;
 
 public class GameDTO {
 
+    private Long id;
     private String name;
     private BigDecimal price;
     private Date releaseDate;
     private GameCompanyDTO gameCompany;
     private String gameDescription;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

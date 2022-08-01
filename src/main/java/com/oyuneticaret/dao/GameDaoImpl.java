@@ -26,7 +26,7 @@ public class GameDaoImpl implements GameDao{
 
     @Override
     public List<Game> findAllGames() {
-        return return getCurrentSession().createQuery("from Game").getResultList();;
+        return getCurrentSession().createQuery("from Game").getResultList();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class GameDaoImpl implements GameDao{
 
     @Override
     public Game findGameById(Long id) {
-        return return getCurrentSession().get(Game.class,id);
+        return getCurrentSession().get(Game.class,id);
     }
 
     @Override

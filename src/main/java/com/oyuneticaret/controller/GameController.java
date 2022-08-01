@@ -71,6 +71,7 @@ public class GameController {
             gameCompanyDTO.setId(game.getGameCompany().getId());
 
             gameDTO.setGameCompany(gameCompanyDTO);
+            gameDTO.setId(game.getId());
             gameDTO.setGameDescription(game.getGameDescription());
             gameDTO.setName(game.getName());
             gameDTO.setPrice(game.getPrice());
@@ -100,7 +101,9 @@ public class GameController {
             gameCompanyDTO.setCompanyName(game.getGameCompany().getCompanyName());
             gameCompanyDTO.setId(game.getGameCompany().getId());
 
+
             gameDTO.setGameCompany(gameCompanyDTO);
+            gameDTO.setId(game.getId());
             gameDTO.setGameDescription(game.getGameDescription());
             gameDTO.setName(game.getName());
             gameDTO.setPrice(game.getPrice());
