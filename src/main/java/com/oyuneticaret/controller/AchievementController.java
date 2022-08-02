@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/achievement")
 public class AchievementController {
@@ -45,7 +48,12 @@ public class AchievementController {
     }
 
 
-    //TODO findAchievements methodu yazılacak
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public ResponseEntity<?> findAchievements(@RequestParam(required = false) String name,
+                                              @RequestParam(required = false) Long gameId){
+        List<Achievement> achievements = achievementService.findAchievements(name,gameId);
+        return ResponseEntity.ok(achievementUtil.createAchievementFindSuccessDTO(achievements));
+    }
 
 
     @RequestMapping(value = "/get?{id}" ,method = RequestMethod.GET)

@@ -21,7 +21,7 @@ import java.util.List;
 public class GameController {
 
     @Autowired
-    GameService gameService;
+    private GameService gameService;
 
     @Autowired
     private GameCompanyService gameCompanyService;
@@ -57,8 +57,10 @@ public class GameController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResponseEntity<?> findGames(@RequestBody GameFindDTO gameFindDTO){
-        List<Game> games = gameService.findGames(gameFindDTO);
+    public ResponseEntity<?> findGames(@RequestParam(required = false) String name,
+                                       @RequestParam(required = false) BigDecimal price,
+                                       @RequestParam(required = false) Long gameCompanyId){
+        List<Game> games = gameService.findGames(name,price,gameCompanyId);
         return ResponseEntity.ok(gameUtil.createGameFindSuccessDTO(games));
     }
 

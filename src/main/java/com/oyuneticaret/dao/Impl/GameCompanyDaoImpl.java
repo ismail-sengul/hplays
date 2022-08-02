@@ -1,5 +1,6 @@
-package com.oyuneticaret.dao;
+package com.oyuneticaret.dao.Impl;
 
+import com.oyuneticaret.dao.GameCompanyDao;
 import com.oyuneticaret.model.GameCompany;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

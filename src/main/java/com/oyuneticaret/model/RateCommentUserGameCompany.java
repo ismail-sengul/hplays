@@ -19,7 +19,7 @@ public class RateCommentUserGameCompany {
     private GameCompany gameCompany;
 
     @Column(name = "RATE")
-    private int rate;
+    private Integer rate;
 
     @Column(name = "COMMENT")
     private String comment;

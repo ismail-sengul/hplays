@@ -1,8 +1,9 @@
-package com.oyuneticaret.service;
+package com.oyuneticaret.service.Impl;
 
 import com.oyuneticaret.dao.GameDao;
 import com.oyuneticaret.dto.game.GameFindDTO;
 import com.oyuneticaret.model.Game;
+import com.oyuneticaret.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,8 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<Game> findGames(GameFindDTO gameFindDTO) {
-        return gameDao.findGames(gameFindDTO);
+    public List<Game> findGames(String name, BigDecimal price, Long gameCompanyId) {
+        return gameDao.findGames(name,price,gameCompanyId);
     }
 
 

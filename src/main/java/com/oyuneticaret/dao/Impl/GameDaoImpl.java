@@ -1,5 +1,6 @@
-package com.oyuneticaret.dao;
+package com.oyuneticaret.dao.Impl;
 
+import com.oyuneticaret.dao.GameDao;
 import com.oyuneticaret.dto.game.GameFindDTO;
 import com.oyuneticaret.model.Game;
 import org.hibernate.Session;
@@ -13,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public class GameDaoImpl implements GameDao{
+public class GameDaoImpl implements GameDao {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -28,19 +29,22 @@ public class GameDaoImpl implements GameDao{
     }
 
     @Override
-    public List<Game> findGames(GameFindDTO gameFindDTO) {
-        StringBuilder query = new StringBuilder("from Game as G");
-        if(gameFindDTO.getName()!= null || gameFindDTO.getPrice() != null){
-            query.append(" where ");
+    public List<Game> findGames(String name, BigDecimal price, Long gameCompanyId) {
+        StringBuilder query = new StringBuilder("SELECT * FROM GAME AS G");
+        if(name != null || price != null || gameCompanyId != null){
+            query.append(" WHERE 1=1");
 
-            if(gameFindDTO.getName()!= null){
-                query.append("G.name = '"+gameFindDTO.getName()+"'");
+            if(name != null){
+                query.append(" AND G.NAME = '"+name+"'");
             }
-            if(gameFindDTO.getPrice()!= null){
-                query.append(" G.price = "+gameFindDTO.getPrice());
+            if(price != null){
+                query.append(" AND G.PRICE "+price);
+            }
+            if(gameCompanyId != null){
+                query.append(" AND G.GAME_COMPANY_ID "+gameCompanyId);
             }
         }
-        return getCurrentSession().createQuery(query.toString()).getResultList();
+        return getCurrentSession().createNativeQuery(query.toString()).getResultList();
     }
 
 

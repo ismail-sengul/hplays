@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface GameDao {
     void save(Game game);
-    List<Game> findGames(GameFindDTO gameFindDTO);
+    List<Game> findGames(String name,BigDecimal price,Long gameCompanyId);
     Game findGameById(Long id);
     void delete(Game game);
 }

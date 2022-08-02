@@ -1,7 +1,8 @@
-package com.oyuneticaret.service;
+package com.oyuneticaret.service.Impl;
 
 import com.oyuneticaret.dao.TypeDao;
 import com.oyuneticaret.model.Types;
+import com.oyuneticaret.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

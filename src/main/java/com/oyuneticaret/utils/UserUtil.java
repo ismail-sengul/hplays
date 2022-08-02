@@ -1,5 +1,6 @@
 package com.oyuneticaret.utils;
 
+import com.oyuneticaret.dto.user.UserDTO;
 import com.oyuneticaret.dto.user.UserSuccessDTO;
 import com.oyuneticaret.model.User;
 
@@ -17,6 +18,18 @@ public class UserUtil {
         userSuccessDTO.setMessage(message);
 
         return userSuccessDTO;
+    }
+    public UserDTO convertUserDTO(User user){
+        UserDTO userDTO = new UserDTO();
+
+        userDTO.setId(user.getId());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setBirthOfDate(user.getBirthOfDate());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setNickname(user.getNickname());
+        userDTO.setAddress(user.getAddress());
+        return userDTO;
     }
 
 }

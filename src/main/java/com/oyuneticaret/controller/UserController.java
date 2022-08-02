@@ -19,9 +19,9 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
-    UserUtil userUtil = new UserUtil();
+    private UserUtil userUtil = new UserUtil();
 
     @RequestMapping(value = "/save" , method = RequestMethod.POST)
     public ResponseEntity<?> save(@RequestBody UserCreateDTO userCreateDTO){
@@ -50,22 +50,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/list" , method = RequestMethod.GET)
-    public ResponseEntity<?> findGames(@RequestBody UserFindDTO userFindDTO){
+    public ResponseEntity<?> findGames(@RequestParam(required = false) String lastName,
+                                       @RequestParam(required = false) String firstName,
+                                       @RequestParam(required = false) String nickname){
         UserFindSuccessDTO userFindSuccessDTO = new UserFindSuccessDTO();
-        List<User> users = userService.findUsers(userFindDTO);
+        List<User> users = userService.findUsers(firstName,lastName,nickname);
         List<UserDTO> userDTOS = new ArrayList<>();
         for(User user: users){
-            UserDTO userDTO = new UserDTO();
-
-            userDTO.setId(user.getId());
-            userDTO.setLastName(user.getLastName());
-            userDTO.setBirthOfDate(user.getBirthOfDate());
-            userDTO.setEmail(user.getEmail());
-            userDTO.setFirstName(user.getFirstName());
-            userDTO.setNickname(user.getNickname());
-            userDTO.setAddress(user.getAddress());
-
-            userDTOS.add(userDTO);
+            userDTOS.add(userUtil.convertUserDTO(user));
         }
         userFindSuccessDTO.setUsers(userDTOS);
         userFindSuccessDTO.setMessage("Listeleme İşlemi Başarılı.");

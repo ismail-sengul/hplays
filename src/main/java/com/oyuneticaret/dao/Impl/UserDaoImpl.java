@@ -1,5 +1,6 @@
-package com.oyuneticaret.dao;
+package com.oyuneticaret.dao.Impl;
 
+import com.oyuneticaret.dao.UserDao;
 import com.oyuneticaret.dto.user.UserFindDTO;
 import com.oyuneticaret.model.User;
 import org.hibernate.Session;
@@ -25,23 +26,23 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findUsers(UserFindDTO userFindDTO) {
-        StringBuilder query = new StringBuilder("from User as U");
+    public List<User> findUsers(String firstName,String lastName, String nickname) {
+        StringBuilder query = new StringBuilder("SELECT * FROM USERS AS U");
 
-        if(userFindDTO.getFirstName() != null || userFindDTO.getLastName() != null || userFindDTO.getNickname() != null){
-            query.append(" where ");
+        if(firstName != null || lastName != null || nickname != null){
+            query.append(" WHERE 1=1");
 
-            if(userFindDTO.getFirstName() != null){
-                query.append("U.firstName = '"+userFindDTO.getFirstName()+"'");
+            if(firstName != null){
+                query.append(" AND U.FIRST_NAME = '"+firstName+"'");
             }
-            if(userFindDTO.getLastName() != null){
-                query.append("U.lastName = '"+userFindDTO.getLastName()+"'");
+            if(lastName != null){
+                query.append(" AND U.LAST_NAME = '"+lastName+"'");
             }
-            if(userFindDTO.getNickname() != null){
-                query.append("U.nickname = '"+userFindDTO.getNickname()+"'");
+            if(nickname != null){
+                query.append(" AND U.NICKNAME = '"+nickname+"'");
             }
         }
-        return getCurrentSession().createQuery(query.toString()).getResultList();
+        return getCurrentSession().createNativeQuery(query.toString()).getResultList();
     }
 
     @Override

@@ -1,7 +1,8 @@
-package com.oyuneticaret.service;
+package com.oyuneticaret.service.Impl;
 
 import com.oyuneticaret.dao.GameCompanyDao;
 import com.oyuneticaret.model.GameCompany;
+import com.oyuneticaret.service.GameCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

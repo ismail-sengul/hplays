@@ -1,6 +1,6 @@
-package com.oyuneticaret.dao;
+package com.oyuneticaret.dao.Impl;
 
-import com.oyuneticaret.dto.achievement.AchievementFindDTO;
+import com.oyuneticaret.dao.AchievementDao;
 import com.oyuneticaret.model.Achievement;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,9 +26,20 @@ public class AchievementDaoImpl implements AchievementDao {
 
     //TODO gameId ile nasıl bağlayacağım?
     @Override
-    public List<Achievement> findAchievements(AchievementFindDTO achievementFindDao) {
+    public List<Achievement> findAchievements(String name, Long gameId) {
+        StringBuilder query = new StringBuilder("SELECT * FROM ACHIEVEMENT AS A");
 
-        return null;
+        if(name != null || gameId != null){
+            query.append(" WHERE 1=1");
+            if(name !=null){
+                query.append(" AND A.NAME = '"+name+"'");
+            }
+            if(gameId != null){
+                query.append(" AND A.GAME_ID = "+gameId);
+            }
+
+        }
+        return getCurrentSession().createNativeQuery(query.toString()).getResultList();
     }
 
     @Override

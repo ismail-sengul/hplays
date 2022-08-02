@@ -1,8 +1,8 @@
-package com.oyuneticaret.service;
+package com.oyuneticaret.service.Impl;
 
 import com.oyuneticaret.dao.AchievementDao;
-import com.oyuneticaret.dto.achievement.AchievementFindDTO;
 import com.oyuneticaret.model.Achievement;
+import com.oyuneticaret.service.AchievementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +19,8 @@ public class AchievementServiceImpl implements AchievementService {
     }
 
     @Override
-    public List<Achievement> findAchievements(AchievementFindDTO achievementFindDao) {
-        return achievementDao.findAchievements(achievementFindDao);
+    public List<Achievement> findAchievements(String name,Long gameId) {
+        return achievementDao.findAchievements(name,gameId);
     }
 
     @Override

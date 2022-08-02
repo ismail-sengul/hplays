@@ -1,5 +1,6 @@
-package com.oyuneticaret.dao;
+package com.oyuneticaret.dao.Impl;
 
+import com.oyuneticaret.dao.TypeDao;
 import com.oyuneticaret.model.Types;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
