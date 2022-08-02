@@ -1,5 +1,6 @@
 package com.oyuneticaret.dao;
 
+import com.oyuneticaret.dto.game.GameFindDTO;
 import com.oyuneticaret.model.Game;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -7,6 +8,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -25,16 +28,21 @@ public class GameDaoImpl implements GameDao{
     }
 
     @Override
-    public List<Game> findAllGames() {
-        return getCurrentSession().createQuery("from Game").getResultList();
+    public List<Game> findGames(GameFindDTO gameFindDTO) {
+        StringBuilder query = new StringBuilder("from Game as G");
+        if(gameFindDTO.getName()!= null || gameFindDTO.getPrice() != null){
+            query.append(" where ");
+
+            if(gameFindDTO.getName()!= null){
+                query.append("G.name = '"+gameFindDTO.getName()+"'");
+            }
+            if(gameFindDTO.getPrice()!= null){
+                query.append(" G.price = "+gameFindDTO.getPrice());
+            }
+        }
+        return getCurrentSession().createQuery(query.toString()).getResultList();
     }
 
-    @Override
-    public List<Game> findGamesByName(String name) {
-        Query query = getCurrentSession().createQuery("from Game as T where T.name = :name ");
-        return query.setParameter("name",name)
-                .getResultList();
-    }
 
     @Override
     public Game findGameById(Long id) {

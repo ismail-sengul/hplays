@@ -5,6 +5,7 @@ import com.oyuneticaret.dto.gamecompany.*;
 import com.oyuneticaret.model.Game;
 import com.oyuneticaret.model.GameCompany;
 import com.oyuneticaret.service.GameCompanyService;
+import com.oyuneticaret.utils.GameCompanyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,114 +20,68 @@ public class GameCompanyController {
     @Autowired
     private GameCompanyService gameCompanyService;
 
+    private GameCompanyUtil gameCompanyUtil = new GameCompanyUtil();
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity<?> gameCompanySave(@RequestBody GameCompanyCreateDTO gameCompanyCreateDTO){
         GameCompanySuccessDTO successDTO = new GameCompanySuccessDTO();
         if(gameCompanyCreateDTO.getCompanyName() == null){
             throw new IllegalArgumentException("Şirket adı girilmesi zorunludur.");
-        }else{
-
-            GameCompany gameCompany = new GameCompany();
-            gameCompany.setCompanyName(gameCompanyCreateDTO.getCompanyName());
-            gameCompany.setCompanyDescription(gameCompanyCreateDTO.getCompanyDescription());
-            gameCompany.setFoundationYear(gameCompanyCreateDTO.getFoundationYear());
-
-            gameCompanyService.save(gameCompany);
-
-            successDTO.setId(gameCompany.getId());
-            successDTO.setCompanyDescription(gameCompanyCreateDTO.getCompanyDescription());
-            successDTO.setCompanyName(gameCompanyCreateDTO.getCompanyName());
-            successDTO.setFoundationYear(gameCompanyCreateDTO.getFoundationYear());
-            successDTO.setMessage("Create işlemi başarılı.");
-
         }
-        return ResponseEntity.ok(successDTO);
+
+        GameCompany gameCompany = new GameCompany();
+        gameCompany.setCompanyName(gameCompanyCreateDTO.getCompanyName());
+        gameCompany.setCompanyDescription(gameCompanyCreateDTO.getCompanyDescription());
+        gameCompany.setFoundationYear(gameCompanyCreateDTO.getFoundationYear());
+
+        gameCompanyService.save(gameCompany);
+
+        return ResponseEntity.ok(gameCompanyUtil.createGameCompanySuccessDTO(gameCompany,"Ekleme işlemi başarılı"));
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResponseEntity<?> findAllGameCompanies(){
-        GameCompanyFindSuccessDTO gameCompanyFindSuccessDTO = new GameCompanyFindSuccessDTO();
-
         List<GameCompany> gameCompanies = gameCompanyService.findAllGameCompanies();
-        List<GameCompanyDTO> gameCompanyDTOS = new ArrayList<>();
-        for (GameCompany gameCompany: gameCompanies){
-            GameCompanyDTO gameCompanyDTO = new GameCompanyDTO();
-            gameCompanyDTO.setId(gameCompany.getId());
-            gameCompanyDTO.setCompanyName(gameCompany.getCompanyName());
-            gameCompanyDTO.setCompanyDescription(gameCompany.getCompanyDescription());
-            gameCompanyDTO.setFoundationYear(gameCompany.getFoundationYear());
 
-            gameCompanyDTOS.add(gameCompanyDTO);
-        }
-        gameCompanyFindSuccessDTO.setGameCompanies(gameCompanyDTOS);
-        gameCompanyFindSuccessDTO.setMessage("Listeleme işlemi başarılı.");
-
-        return ResponseEntity.ok(gameCompanyFindSuccessDTO);
+        return ResponseEntity.ok(gameCompanyUtil.createGameCompanyFindSuccessDTO(gameCompanies));
     }
 
-    @RequestMapping(value = "/list?{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/get?{id}",method = RequestMethod.GET)
     public ResponseEntity<?> findGameCompanyById(@PathVariable(value = "id") Long id){
         GameCompany gameCompany = gameCompanyService.findGameCompanyById(id);
-        GameCompanySuccessDTO foundedGameCompany = new GameCompanySuccessDTO();
-        if (gameCompany == null){
+        if (gameCompany == null) {
             throw new IllegalArgumentException("Id değeri yanlış girildi");
-        }else{
-            foundedGameCompany.setId(gameCompany.getId());
-            foundedGameCompany.setFoundationYear(gameCompany.getFoundationYear());
-            foundedGameCompany.setCompanyName(gameCompany.getCompanyName());
-            foundedGameCompany.setCompanyDescription(gameCompany.getCompanyDescription());
-            foundedGameCompany.setMessage("İşlem Başarılı.");
         }
-        return ResponseEntity.ok(foundedGameCompany);
+        return ResponseEntity.ok(gameCompanyUtil.createGameCompanySuccessDTO(gameCompany,"İşlem Başarılı."));
     }
 
-    @RequestMapping(value = "/get" , method = RequestMethod.GET)
-    public ResponseEntity<?> findGameCompaniesByName(@RequestParam String companyName){
-        GameCompanyFindSuccessDTO gameCompanyFindSuccessDTO = new GameCompanyFindSuccessDTO();
-
+    @RequestMapping(value = "/list?{companyName}" , method = RequestMethod.GET)
+    public ResponseEntity<?> findGameCompaniesByName(@PathVariable(value = "companyName") String companyName){
         List<GameCompany> gameCompanies = gameCompanyService.findGameCompaniesByName(companyName);
-        List<GameCompanyDTO> gameCompanyDTOS = new ArrayList<>();
-        for (GameCompany gameCompany: gameCompanies){
-            GameCompanyDTO gameCompanyDTO = new GameCompanyDTO();
-            gameCompanyDTO.setId(gameCompany.getId());
-            gameCompanyDTO.setCompanyName(gameCompany.getCompanyName());
-            gameCompanyDTO.setCompanyDescription(gameCompany.getCompanyDescription());
-            gameCompanyDTO.setFoundationYear(gameCompany.getFoundationYear());
-
-            gameCompanyDTOS.add(gameCompanyDTO);
-        }
-        gameCompanyFindSuccessDTO.setGameCompanies(gameCompanyDTOS);
-        gameCompanyFindSuccessDTO.setMessage("Listeleme işlemi başarılı.");
-
-        return ResponseEntity.ok(gameCompanyFindSuccessDTO);
+        return ResponseEntity.ok(gameCompanyUtil.createGameCompanyFindSuccessDTO(gameCompanies));
     }
 
     @RequestMapping(value = "/update" , method = RequestMethod.PUT)
-    public ResponseEntity<?> updateGameCompany(@RequestBody GameCompanyUpdateDTO gameCompanyUpdateDTO){
+    public ResponseEntity<?> updateGameCompany(@RequestBody GameCompanyDTO gameCompanyDTO){
         GameCompanySuccessDTO successDTO = new GameCompanySuccessDTO();
-        GameCompany gameCompany = gameCompanyService.findGameCompanyById(gameCompanyUpdateDTO.getId());
+        GameCompany gameCompany = gameCompanyService.findGameCompanyById(gameCompanyDTO.getId());
 
         if(gameCompany == null){
             throw new IllegalArgumentException("Id yanlış girildi.");
         }else{
-            if(gameCompanyUpdateDTO.getCompanyDescription() != null && !(gameCompanyUpdateDTO.getCompanyDescription().equalsIgnoreCase(gameCompany.getCompanyDescription()))){
-                gameCompany.setCompanyDescription(gameCompanyUpdateDTO.getCompanyDescription());
+            if(gameCompanyDTO.getCompanyDescription() != null && !(gameCompanyDTO.getCompanyDescription().equalsIgnoreCase(gameCompany.getCompanyDescription()))){
+                gameCompany.setCompanyDescription(gameCompanyDTO.getCompanyDescription());
             }
-            if(gameCompanyUpdateDTO.getCompanyName() != null && !(gameCompanyUpdateDTO.getCompanyName().equalsIgnoreCase(gameCompany.getCompanyName()))){
-                gameCompany.setCompanyName(gameCompanyUpdateDTO.getCompanyName());
+            if(gameCompanyDTO.getCompanyName() != null && !(gameCompanyDTO.getCompanyName().equalsIgnoreCase(gameCompany.getCompanyName()))){
+                gameCompany.setCompanyName(gameCompanyDTO.getCompanyName());
             }
-            if(gameCompanyUpdateDTO.getFoundationYear() != null){
-                gameCompany.setFoundationYear(gameCompanyUpdateDTO.getFoundationYear());
+            if(gameCompanyDTO.getFoundationYear() != null){
+                gameCompany.setFoundationYear(gameCompanyDTO.getFoundationYear());
             }
 
             gameCompanyService.save(gameCompany);
-            successDTO.setId(gameCompanyUpdateDTO.getId());
-            successDTO.setCompanyDescription(gameCompanyUpdateDTO.getCompanyDescription());
-            successDTO.setCompanyName(gameCompanyUpdateDTO.getCompanyName());
-            successDTO.setFoundationYear(gameCompanyUpdateDTO.getFoundationYear());
-            successDTO.setMessage("Update işlemi başarılı.");
         }
-        return ResponseEntity.ok(successDTO);
+        return ResponseEntity.ok(gameCompanyUtil.createGameCompanySuccessDTO(gameCompany,"Update İşlemi Başarılı."));
     }
 
     @RequestMapping(value = "/delete" , method = RequestMethod.DELETE)
@@ -136,15 +91,11 @@ public class GameCompanyController {
 
         if(gameCompany == null){
             throw new IllegalArgumentException("Id yanlış girildi.");
-        }else{
-            gameCompanyService.delete(gameCompany);
-            successDTO.setFoundationYear(gameCompany.getFoundationYear());
-            successDTO.setCompanyName(gameCompany.getCompanyName());
-            successDTO.setCompanyDescription(gameCompany.getCompanyDescription());
-            successDTO.setId(gameCompany.getId());
-            successDTO.setMessage("Silme İşlemi Başarılı.");
         }
-        return ResponseEntity.ok(successDTO);
+
+        gameCompanyService.delete(gameCompany);
+
+        return ResponseEntity.ok(gameCompanyUtil.createGameCompanySuccessDTO(gameCompany,"Silme işlemi başarılı."));
     }
 
 }

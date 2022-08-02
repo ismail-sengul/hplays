@@ -11,7 +11,7 @@ public class GameCreateDTO implements Serializable {
     private String name;
     private BigDecimal price;
     private Date releaseDate;
-    private GameCompanyDTO gameCompany;
+    private Long gameCompanyId;
     private String gameDescription;
 
     public String getName() {
@@ -38,12 +38,12 @@ public class GameCreateDTO implements Serializable {
         this.releaseDate = releaseDate;
     }
 
-    public GameCompanyDTO getGameCompany() {
-        return gameCompany;
+    public Long getGameCompanyId() {
+        return gameCompanyId;
     }
 
-    public void setGameCompany(GameCompanyDTO gameCompany) {
-        this.gameCompany = gameCompany;
+    public void setGameCompanyId(Long gameCompanyId) {
+        this.gameCompanyId = gameCompanyId;
     }
 
     public String getGameDescription() {
