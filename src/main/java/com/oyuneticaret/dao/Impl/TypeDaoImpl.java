@@ -38,8 +38,8 @@ public class TypeDaoImpl implements TypeDao {
 
     @Override
     public List<Types> listTypesByName(String name) {
-        Query query = getCurrentSession().createQuery("from Types as T where T.name = :name ");
-        return query.setParameter("name",name)
+        Query query = getCurrentSession().createQuery("from Types as T where T.name like :name ");
+        return query.setParameter("name","%"+name+"%")
                     .getResultList();
     }
 

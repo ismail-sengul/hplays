@@ -67,7 +67,6 @@ public class GameController {
 
     @RequestMapping(value = "/get?{id}" , method = RequestMethod.GET)
     public ResponseEntity<?> findGameById(@PathVariable(value = "id") Long id){
-        GameSuccessDTO gameSuccessDTO = new GameSuccessDTO();
         Game game = gameService.findGameById(id);
         if(game == null){
             throw new IllegalArgumentException("Id yanlış girildi.");

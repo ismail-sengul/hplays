@@ -38,7 +38,7 @@ public class RateCommentUserGameDaoImpl implements RateCommentUserGameDao {
             query.append(" AND RC.RATE = "+rate);
         }
 
-        return getCurrentSession().createNativeQuery(query.toString()).getResultList();
+        return getCurrentSession().createNativeQuery(query.toString()).addEntity(RateCommentUserGame.class).getResultList();
     }
 
     @Override

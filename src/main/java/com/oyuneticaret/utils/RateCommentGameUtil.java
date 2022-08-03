@@ -38,7 +38,7 @@ public class RateCommentGameUtil {
         }
         rateCommentGameFindSuccessDTO.setRatesAndComments(rateCommentGameDTOS);
         rateCommentGameFindSuccessDTO.setMessage("Listeleme İşlemi Başarılı.");
-        return rate
+        return rateCommentGameFindSuccessDTO;
     }
 
 }

@@ -32,14 +32,14 @@ public class AchievementDaoImpl implements AchievementDao {
         if(name != null || gameId != null){
             query.append(" WHERE 1=1");
             if(name !=null){
-                query.append(" AND A.NAME = '"+name+"'");
+                query.append(" AND A.NAME LIKE '%"+name+"%'");
             }
             if(gameId != null){
                 query.append(" AND A.GAME_ID = "+gameId);
             }
 
         }
-        return getCurrentSession().createNativeQuery(query.toString()).getResultList();
+        return getCurrentSession().createNativeQuery(query.toString()).addEntity(Achievement.class).getResultList();
     }
 
     @Override

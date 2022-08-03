@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,21 +31,18 @@ public class GameDaoImpl implements GameDao {
 
     @Override
     public List<Game> findGames(String name, BigDecimal price, Long gameCompanyId) {
-        StringBuilder query = new StringBuilder("SELECT * FROM GAME AS G");
-        if(name != null || price != null || gameCompanyId != null){
-            query.append(" WHERE 1=1");
-
-            if(name != null){
-                query.append(" AND G.NAME = '"+name+"'");
-            }
-            if(price != null){
-                query.append(" AND G.PRICE "+price);
-            }
-            if(gameCompanyId != null){
-                query.append(" AND G.GAME_COMPANY_ID "+gameCompanyId);
-            }
+        StringBuilder query = new StringBuilder("SELECT * FROM GAME AS G WHERE 1=1");
+        if(name != null){
+            query.append(" AND G.NAME LIKE '"+name+"%'");
         }
-        return getCurrentSession().createNativeQuery(query.toString()).getResultList();
+        if(price != null){
+            query.append(" AND G.PRICE = "+price);
+        }
+        if(gameCompanyId != null){
+            query.append(" AND G.GAME_COMPANY_ID = "+gameCompanyId);
+        }
+
+        return getCurrentSession().createNativeQuery(query.toString()).addEntity(Game.class).getResultList();
     }
 
 

@@ -28,6 +28,17 @@ public class GameCompanyUtil {
         return gameCompanyFindSuccessDTO;
     }
 
+    public GameCompanyDTO convertGameCompanyDTO(GameCompany gameCompany){
+        GameCompanyDTO gameCompanyDTO = new GameCompanyDTO();
+
+        gameCompanyDTO.setId(gameCompany.getId());
+        gameCompanyDTO.setCompanyName(gameCompany.getCompanyName());
+        gameCompanyDTO.setCompanyDescription(gameCompany.getCompanyDescription());
+        gameCompanyDTO.setFoundationYear(gameCompany.getFoundationYear());
+
+        return  gameCompanyDTO;
+    }
+
     public GameCompanySuccessDTO createGameCompanySuccessDTO(GameCompany gameCompany,String message){
         GameCompanySuccessDTO successDTO = new GameCompanySuccessDTO();
         successDTO.setId(gameCompany.getId());

@@ -32,8 +32,8 @@ public class GameCompanyDaoImpl implements GameCompanyDao {
 
     @Override
     public List<GameCompany> findGameCompaniesByName(String companyName) {
-        Query query = getCurrentSession().createQuery("from GameCompany as G where G.companyName = :companyName");
-        return query.setParameter("companyName",companyName).getResultList();
+        Query query = getCurrentSession().createQuery("from GameCompany as G where G.companyName like :companyName");
+        return query.setParameter("companyName","%"+companyName+"%").getResultList();
     }
 
     @Override

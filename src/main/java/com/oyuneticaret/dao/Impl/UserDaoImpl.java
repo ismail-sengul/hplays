@@ -27,22 +27,19 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findUsers(String firstName,String lastName, String nickname) {
-        StringBuilder query = new StringBuilder("SELECT * FROM USERS AS U");
+        StringBuilder query = new StringBuilder("SELECT * FROM USERS AS U WHERE 1=1");
 
-        if(firstName != null || lastName != null || nickname != null){
-            query.append(" WHERE 1=1");
-
-            if(firstName != null){
-                query.append(" AND U.FIRST_NAME = '"+firstName+"'");
-            }
-            if(lastName != null){
-                query.append(" AND U.LAST_NAME = '"+lastName+"'");
-            }
-            if(nickname != null){
-                query.append(" AND U.NICKNAME = '"+nickname+"'");
-            }
+        if(firstName != null){
+            query.append(" AND U.FIRST_NAME LIKE '"+firstName+"%'");
         }
-        return getCurrentSession().createNativeQuery(query.toString()).getResultList();
+        if(lastName != null){
+            query.append(" AND U.LAST_NAME LIKE '"+lastName+"%'");
+        }
+        if(nickname != null){
+            query.append(" AND U.NICKNAME LIKE '%"+nickname+"%'");
+        }
+
+        return getCurrentSession().createNativeQuery(query.toString()).addEntity(User.class).getResultList();
     }
 
     @Override
