@@ -1,7 +1,6 @@
 package com.oyuneticaret.service.Impl;
 
 import com.oyuneticaret.dao.UserDao;
-import com.oyuneticaret.dto.user.UserFindDTO;
 import com.oyuneticaret.model.User;
 import com.oyuneticaret.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,6 @@ package com.oyuneticaret.controller;
 
 import com.oyuneticaret.dto.user.UserCreateDTO;
 import com.oyuneticaret.dto.user.UserDTO;
-import com.oyuneticaret.dto.user.UserFindDTO;
 import com.oyuneticaret.dto.user.UserFindSuccessDTO;
 import com.oyuneticaret.model.User;
 import com.oyuneticaret.service.UserService;

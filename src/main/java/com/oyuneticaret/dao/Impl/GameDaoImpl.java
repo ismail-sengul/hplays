@@ -1,17 +1,13 @@
 package com.oyuneticaret.dao.Impl;
 
 import com.oyuneticaret.dao.GameDao;
-import com.oyuneticaret.dto.game.GameFindDTO;
 import com.oyuneticaret.model.Game;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Repository

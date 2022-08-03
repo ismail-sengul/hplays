@@ -1,7 +1,6 @@
 package com.oyuneticaret.dao.Impl;
 
 import com.oyuneticaret.dao.UserDao;
-import com.oyuneticaret.dto.user.UserFindDTO;
 import com.oyuneticaret.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

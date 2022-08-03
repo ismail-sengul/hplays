@@ -1,6 +1,5 @@
 package com.oyuneticaret.service;
 
-import com.oyuneticaret.dto.user.UserFindDTO;
 import com.oyuneticaret.model.User;
 
 import java.util.List;

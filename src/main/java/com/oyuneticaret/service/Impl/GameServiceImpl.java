@@ -1,7 +1,6 @@
 package com.oyuneticaret.service.Impl;
 
 import com.oyuneticaret.dao.GameDao;
-import com.oyuneticaret.dto.game.GameFindDTO;
 import com.oyuneticaret.model.Game;
 import com.oyuneticaret.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 @Service
