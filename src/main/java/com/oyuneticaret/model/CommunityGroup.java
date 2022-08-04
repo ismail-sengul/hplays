@@ -20,8 +20,8 @@ public class CommunityGroup {
     @Column(name = "GROUP_NAME")
     private String groupName;
 
-    @Column(name = "COMMUNITY_GROUP_DESCRIPTION")
-    private String communityGroupDescription;
+    @Column(name = "GROUP_DESCRIPTION")
+    private String groupDescription;
 
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(name = "JOINED_USER_COMMUNITY_GROUP",
@@ -53,12 +53,12 @@ public class CommunityGroup {
         this.groupName = groupName;
     }
 
-    public String getCommunityGroupDescription() {
-        return communityGroupDescription;
+    public String getGroupDescription() {
+        return groupDescription;
     }
 
-    public void setCommunityGroupDescription(String communityGroupDescription) {
-        this.communityGroupDescription = communityGroupDescription;
+    public void setGroupDescription(String groupDescription) {
+        this.groupDescription = groupDescription;
     }
 
     public Set<User> getJoinedUsers() {
