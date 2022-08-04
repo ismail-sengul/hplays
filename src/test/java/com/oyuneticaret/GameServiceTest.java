@@ -3,6 +3,7 @@ package com.oyuneticaret;
 import com.oyuneticaret.model.Game;
 import com.oyuneticaret.model.GameCompany;
 import com.oyuneticaret.service.GameService;
+import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,47 +26,69 @@ public class GameServiceTest {
     @Autowired
     GameService gameService;
 
+    @Autowired
+    SessionFactory sessionFactory;
+
+
     @Test
     public void testSave(){
 
-        Game game = new Game();
+        Game saveGame = new Game();
         GameCompany gameCompany = new GameCompany();
-        game.setGameCompany(gameCompany);
-        game.setReleaseDate(new Date());
-        game.setPrice(new BigDecimal("22.3"));
-        game.setName("TestGame");
-        game.setGameDescription("TestDesc");
+        saveGame.setGameCompany(gameCompany);
+        saveGame.setReleaseDate(new Date());
+        saveGame.setPrice(new BigDecimal("22.3"));
+        saveGame.setName("TestGame");
+        saveGame.setGameDescription("TestDesc");
 
-        gameService.save(game);
-
-        List<Game> games = gameService.findGames("TestGame",null,null);
-        System.out.println(games.size());
-        assertNotEquals(games.size(),0);
+        gameService.save(saveGame);
+        Game game = sessionFactory.getCurrentSession().get(Game.class,saveGame.getId());
+        assertNotEquals(game,null);
     }
 
     @Test
     public void testUpdate(){
-        Game game = new Game();
+        Game saveGame = new Game();
         GameCompany gameCompany = new GameCompany();
-        game.setGameCompany(gameCompany);
-        game.setReleaseDate(new Date());
-        game.setPrice(new BigDecimal("22.3"));
-        game.setName("TestGame");
-        game.setGameDescription("TestDesc");
+        saveGame.setGameCompany(gameCompany);
+        saveGame.setReleaseDate(new Date());
+        saveGame.setPrice(new BigDecimal("22.3"));
+        saveGame.setName("TestGame");
+        saveGame.setGameDescription("TestDesc");
 
-        gameService.save(game);
+        gameService.save(saveGame);
 
-        game.setName("GameTest");
+        saveGame.setName("GameTest");
 
-        gameService.save(game);
+        gameService.save(saveGame);
 
         List<Game> nameTest = gameService.findGames("GameTest",null,null);
         assertNotEquals(nameTest.size(),0);
 
-        game.setPrice(new BigDecimal("24.5"));
-        gameService.save(game);
+        saveGame.setPrice(new BigDecimal("24.5"));
+        gameService.save(saveGame);
         List<Game> priceTest = gameService.findGames(null,new BigDecimal("24.5"),null);
         assertNotEquals(priceTest.size(),0);
+    }
+
+    @Test
+    public void testDelete(){
+        Game saveGame = new Game();
+        GameCompany gameCompany = new GameCompany();
+        saveGame.setGameCompany(gameCompany);
+        saveGame.setReleaseDate(new Date());
+        saveGame.setPrice(new BigDecimal("22.3"));
+        saveGame.setName("TestGame");
+        saveGame.setGameDescription("TestDesc");
+
+        gameService.save(saveGame);
+
+        Game game = sessionFactory.getCurrentSession().get(Game.class,saveGame.getId());
+        assertNotEquals(game,null);
+
+         gameService.delete(game);
+         Game deletedGame = sessionFactory.getCurrentSession().get(Game.class,game.getId());
+         assertEquals(deletedGame,null);
     }
 
 }
