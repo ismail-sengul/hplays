@@ -24,7 +24,6 @@ public class AchievementDaoImpl implements AchievementDao {
         getCurrentSession().save(achievement);
     }
 
-    //TODO gameId ile nasıl bağlayacağım?
     @Override
     public List<Achievement> findAchievements(String name, Long gameId) {
         StringBuilder query = new StringBuilder("SELECT * FROM ACHIEVEMENT AS A");

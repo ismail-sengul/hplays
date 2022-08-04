@@ -14,7 +14,7 @@ public class Types {
     @Column(name = "NAME")
     private String name;
 
-    @ManyToMany(mappedBy = "types")
+    @ManyToMany(mappedBy = "types", cascade = CascadeType.ALL)
     private Set<Game> games;
 
     public Long getId() {

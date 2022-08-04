@@ -13,7 +13,7 @@ public class CommunityGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "CREATOR_ID", referencedColumnName = "ID")
     private User creator;
 
@@ -23,7 +23,7 @@ public class CommunityGroup {
     @Column(name = "COMMUNITY_GROUP_DESCRIPTION")
     private String communityGroupDescription;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(name = "JOINED_USER_COMMUNITY_GROUP",
             joinColumns = { @JoinColumn(name = "COMMUNITY_GROUP_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_ID") })

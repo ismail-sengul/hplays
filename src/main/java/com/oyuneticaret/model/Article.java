@@ -15,14 +15,14 @@ public class Article {
     @JoinColumn(name = "COMMUNITY_GROUP_ID", referencedColumnName = "ID")
     private CommunityGroup communityGroup;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     private User user;
 
     @Column(name = "CONTENT")
     private String content;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(name = "ARTICLE_LIKES",
             joinColumns = { @JoinColumn(name = "ARTICLE_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_ID") })

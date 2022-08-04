@@ -57,10 +57,12 @@ public class UserServiceTest {
 
         saveUser.setNickname("TestNickname");
         saveUser.setEmail("test@test.com");
-        saveUser.setLastName("LName");
-        saveUser.setFirstName("FName");
+        saveUser.setLastName("LNameTest");
+        saveUser.setFirstName("FNameTest");
 
-        users = userService.findUsers("FName","LName","TestNickname");
+        userService.save(saveUser);
+
+        users = userService.findUsers("FNameTest","LNameTest","TestNickname");
         assertNotEquals(users.size(),0);
     }
 
@@ -80,7 +82,7 @@ public class UserServiceTest {
 
         userService.delete(user);
         User deletedUser = sessionFactory.getCurrentSession().get(User.class,user.getId());
-        assertEquals(user,null);
+        assertEquals(deletedUser,null);
 
     }
 }

@@ -6,6 +6,7 @@ import com.oyuneticaret.service.AchievementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -14,6 +15,7 @@ public class AchievementServiceImpl implements AchievementService {
     AchievementDao achievementDao;
 
     @Override
+    @Transactional
     public void save(Achievement achievement) {
         achievementDao.save(achievement);
     }
@@ -29,6 +31,7 @@ public class AchievementServiceImpl implements AchievementService {
     }
 
     @Override
+    @Transactional
     public void delete(Achievement achievement) {
         achievementDao.delete(achievement);
     }

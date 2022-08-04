@@ -22,17 +22,17 @@ public class Game {
     @Column(name = "RELEASE_DATE")
     private Date releaseDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "GAME_COMPANY_ID", referencedColumnName = "ID")
     private GameCompany gameCompany;
 
     @Column(name = "GAME_DESCRIPTION")
     private String gameDescription;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private Set<Achievement> achievements;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(name = "GAME_TYPE",
             joinColumns = { @JoinColumn(name = "GAME_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_ID") })
