@@ -110,7 +110,6 @@ public class RateCommentUserGameController {
                 .createRateCommentGameSuccessDTO(rateCommentUserGame,"Güncelleme İşlemi Başarılı."));
     }
 
-    //TODO ilk 5 satır util içerisinden çağırılabilir.
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteRateAndComment(@RequestParam Long id){
         RateCommentUserGame rateCommentUserGame = rateCommentUserGameService.findRatesAndCommentsById(id);

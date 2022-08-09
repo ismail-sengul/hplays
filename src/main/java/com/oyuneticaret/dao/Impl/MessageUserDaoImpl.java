@@ -40,7 +40,7 @@ public class MessageUserDaoImpl implements MessageUserDao {
         }if(message != null){
             query.append(" AND M.MESSAGE LIKE %"+message+"%");
         }
-        return getCurrentSession().createNativeQuery(query.toString()).getResultList();
+        return getCurrentSession().createNativeQuery(query.toString()).addEntity(MessageUserToUser.class).getResultList();
     }
 
     @Override

@@ -20,8 +20,9 @@ public class AchievementDaoImpl implements AchievementDao {
     }
 
     @Override
-    public void save(Achievement achievement) {
+    public Achievement save(Achievement achievement) {
         getCurrentSession().save(achievement);
+        return achievement;
     }
 
     @Override
@@ -47,7 +48,8 @@ public class AchievementDaoImpl implements AchievementDao {
     }
 
     @Override
-    public void delete(Achievement achievement) {
+    public Achievement delete(Achievement achievement) {
         getCurrentSession().delete(achievement);
+        return achievement;
     }
 }

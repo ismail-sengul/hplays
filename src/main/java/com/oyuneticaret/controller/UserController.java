@@ -95,7 +95,6 @@ public class UserController {
             user.setEmail(userDTO.getEmail());
         }
         if(userDTO.getNickname() != null){
-            //TODO Burada bir kontrol işlemi yapılması gerek
             user.setNickname(userDTO.getNickname());
         }
 

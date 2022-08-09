@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface AchievementDao {
 
-    void save(Achievement achievement);
+    Achievement save(Achievement achievement);
     List<Achievement> findAchievements(String name,Long gameId);
     Achievement findAchievementById(Long id);
-    void delete(Achievement achievement);
+    Achievement delete(Achievement achievement);
 }

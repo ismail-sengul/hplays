@@ -42,9 +42,9 @@ public class AchievementController {
         achievement.setGame(game);
         achievement.setName(achievementCreateDTO.getName());
 
-        achievementService.save(achievement);
+        Achievement savedAchievement = achievementService.save(achievement);
 
-        return ResponseEntity.ok(achievementUtil.createAchievementSuccessDTO(achievement,"Ekleme işlemi başarılı."));
+        return ResponseEntity.ok(achievementUtil.createAchievementSuccessDTO(savedAchievement,"Ekleme işlemi başarılı."));
     }
 
 
@@ -96,9 +96,9 @@ public class AchievementController {
         if(achievement == null){
             throw new IllegalArgumentException("Başarım bulunamadı.");
         }
-        achievementService.delete(achievement);
+        Achievement deletedAchievement = achievementService.delete(achievement);
 
-        return ResponseEntity.ok(achievementUtil.createAchievementSuccessDTO(achievement,"Silme İşlemi Başarılı."));
+        return ResponseEntity.ok(achievementUtil.createAchievementSuccessDTO(deletedAchievement,"Silme İşlemi Başarılı."));
     }
 
 }

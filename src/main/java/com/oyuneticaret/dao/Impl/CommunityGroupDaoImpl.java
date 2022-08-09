@@ -38,7 +38,7 @@ public class CommunityGroupDaoImpl implements CommunityGroupDao {
             query.append(" AND C.GROUP_DESCRIPTION LIKE %"+groupDescription+"%");
         }
 
-        return getCurrentSession().createNativeQuery(query.toString()).getResultList();
+        return getCurrentSession().createNativeQuery(query.toString()).addEntity(CommunityGroup.class).getResultList();
     }
 
     @Override

@@ -42,5 +42,16 @@ public class CommunityGroupUtil {
         return communityGroupFindSuccessDTO;
     }
 
+    public CommunityGroupDTO convertCommunityGroupDTO(CommunityGroup communityGroup){
+        CommunityGroupDTO communityGroupDTO = new CommunityGroupDTO();
+
+        communityGroupDTO.setId(communityGroup.getId());
+        communityGroupDTO.setGroupName(communityGroup.getGroupName());
+        communityGroupDTO.setGroupDescription(communityGroup.getGroupDescription());
+        communityGroupDTO.setCreatorUser(userUtil.convertUserDTO(communityGroup.getCreator())));
+
+        return communityGroupDTO;
+    }
+
 
 }

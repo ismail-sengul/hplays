@@ -16,8 +16,9 @@ public class AchievementServiceImpl implements AchievementService {
 
     @Override
     @Transactional
-    public void save(Achievement achievement) {
+    public Achievement save(Achievement achievement) {
         achievementDao.save(achievement);
+        return achievement;
     }
 
     @Override
@@ -32,7 +33,8 @@ public class AchievementServiceImpl implements AchievementService {
 
     @Override
     @Transactional
-    public void delete(Achievement achievement) {
+    public Achievement delete(Achievement achievement) {
         achievementDao.delete(achievement);
+        return achievement;
     }
 }
