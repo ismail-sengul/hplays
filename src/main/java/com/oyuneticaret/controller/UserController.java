@@ -1,10 +1,12 @@
 package com.oyuneticaret.controller;
 
-import com.oyuneticaret.dto.user.UserCreateDTO;
-import com.oyuneticaret.dto.user.UserDTO;
-import com.oyuneticaret.dto.user.UserFindSuccessDTO;
+import com.oyuneticaret.dto.game.GameDTO;
+import com.oyuneticaret.dto.user.*;
+import com.oyuneticaret.model.Game;
 import com.oyuneticaret.model.User;
+import com.oyuneticaret.service.GameService;
 import com.oyuneticaret.service.UserService;
+import com.oyuneticaret.utils.GameUtil;
 import com.oyuneticaret.utils.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -20,7 +23,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private GameService gameService;
+
     private UserUtil userUtil = new UserUtil();
+
+    private GameUtil gameUtil = new GameUtil();
 
     @RequestMapping(value = "/save" , method = RequestMethod.POST)
     public ResponseEntity<?> save(@RequestBody UserCreateDTO userCreateDTO){
@@ -113,5 +121,113 @@ public class UserController {
         userService.delete(user);
 
         return ResponseEntity.ok(userUtil.createUserSuccessDTO(user,"Silme İşlemi Başarılı."));
+    }
+
+    @RequestMapping(value = "/basket/add", method = RequestMethod.POST)
+    public ResponseEntity<?> addGameToBasket(@RequestBody GameBasketDTO gameBasketDTO){
+        User user = userService.findUserById(gameBasketDTO.getUserId());
+
+        if(user == null){
+            throw new IllegalArgumentException("Kullanıcı bulunamadı.");
+        }
+        Game game = gameService.findGameById(gameBasketDTO.getGameId());
+
+        if(game == null){
+            throw new IllegalArgumentException("Oyun bulunamadı.");
+        }
+
+        Set<Game> gameBasket = user.getBasket();
+        gameBasket.add(game);
+
+        user.setBasket(gameBasket);
+        userService.save(user);
+
+        return ResponseEntity.ok(userUtil.createGameBasketSuccessDTO(game,user,"Sepete Ekleme İşlemi Başarılı."));
+    }
+
+    @RequestMapping(value = "/basket/list" , method = RequestMethod.GET)
+    public ResponseEntity<?> listGamesInBasket(@RequestParam Long userId){
+        User user = userService.findUserById(userId);
+
+        if(user == null){
+            throw new IllegalArgumentException("Kullanıcı Bulunamadı.");
+        }
+
+        return ResponseEntity.ok(userUtil.createGameBasketFindSuccess(user));
+    }
+
+    @RequestMapping(value = "/basket/delete", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteGameInBasket(@RequestParam Long userId,
+                                                @RequestParam(required = false) Long gameId){
+        User user = userService.findUserById(userId);
+
+        if(user == null){
+            throw new IllegalArgumentException("Kullanıcı Bulunamadı.");
+        }
+        Set<Game> basketGames = user.getBasket();
+        if(gameId == null){
+            basketGames.clear();
+        }else{
+            Game game = gameService.findGameById(gameId);
+            basketGames.remove(game);
+        }
+        user.setBasket(basketGames);
+
+        //TODO DELETE ALL VE GAME İÇİN FARKLI ENDPOINT
+        return ResponseEntity.ok(userUtil.createGameBasketSuccessDTO(game,user,"Oyunu sepetten silme işlemi başarılı."));
+    }
+
+    @RequestMapping(value = "/basket/add", method = RequestMethod.POST)
+    public ResponseEntity<?> addGameToWishlist(@RequestBody GameBasketDTO gameBasketDTO){
+        User user = userService.findUserById(gameBasketDTO.getUserId());
+
+        if(user == null){
+            throw new IllegalArgumentException("Kullanıcı bulunamadı.");
+        }
+        Game game = gameService.findGameById(gameBasketDTO.getGameId());
+
+        if(game == null){
+            throw new IllegalArgumentException("Oyun bulunamadı.");
+        }
+
+        Set<Game> gameWishlist = user.getWishlist();
+        gameWishlist.add(game);
+
+        user.setWishlist(gameWishlist);
+        userService.save(user);
+
+        return ResponseEntity.ok(userUtil.createGameBasketSuccessDTO(game,user,"Sepete Ekleme İşlemi Başarılı."));
+    }
+
+    @RequestMapping(value = "/wishlist/list" , method = RequestMethod.GET)
+    public ResponseEntity<?> listGamesInWishlist(@RequestParam Long userId){
+        User user = userService.findUserById(userId);
+
+        if(user == null){
+            throw new IllegalArgumentException("Kullanıcı Bulunamadı.");
+        }
+
+        return ResponseEntity.ok(userUtil.createGameBasketFindSuccess(user));
+    }
+
+    @RequestMapping(value = "/wishlist/delete", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteGameInWishlist(@RequestParam Long userId,
+                                                @RequestParam(required = false) Long gameId){
+        User user = userService.findUserById(userId);
+
+        if(user == null){
+            throw new IllegalArgumentException("Kullanıcı Bulunamadı.");
+        }
+
+        Game game = gameService.findGameById(gameId);
+        if(game == null){
+            throw new IllegalArgumentException("Oyun Bulunamadı.");
+        }
+
+        Set<Game> basketGames = user.getBasket();
+        basketGames.remove(game);
+        user.setBasket(basketGames);
+
+        return ResponseEntity.ok(userUtil.createGameBasketSuccessDTO(game,user,"Oyunu istek listesinden silme işlemi başarılı."));
     }
 }

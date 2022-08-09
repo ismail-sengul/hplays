@@ -4,8 +4,10 @@ import com.oyuneticaret.dto.game.*;
 import com.oyuneticaret.dto.gamecompany.GameCompanyDTO;
 import com.oyuneticaret.model.Game;
 import com.oyuneticaret.model.GameCompany;
+import com.oyuneticaret.model.User;
 import com.oyuneticaret.service.GameCompanyService;
 import com.oyuneticaret.service.GameService;
+import com.oyuneticaret.service.UserService;
 import com.oyuneticaret.utils.GameUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/game")
@@ -117,6 +120,5 @@ public class GameController {
 
         return ResponseEntity.ok(gameUtil.createGameSuccessDTO(game,"Silme İşlemi Başarılı."));
     }
-
 
 }

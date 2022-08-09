@@ -1,11 +1,13 @@
 package com.oyuneticaret.utils;
 
+import com.oyuneticaret.dto.user.GameBasketSuccessDTO;
 import com.oyuneticaret.dto.game.GameDTO;
 import com.oyuneticaret.dto.game.GameFindSuccessDTO;
 import com.oyuneticaret.dto.game.GameSuccessDTO;
 import com.oyuneticaret.dto.gamecompany.GameCompanyDTO;
 import com.oyuneticaret.model.Game;
 import com.oyuneticaret.model.GameCompany;
+import com.oyuneticaret.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,4 +58,6 @@ public class GameUtil {
         gameFindSuccessDTO.setMessage("Listeleme işlemi başarılı.");
         return gameFindSuccessDTO;
     }
+
+
 }

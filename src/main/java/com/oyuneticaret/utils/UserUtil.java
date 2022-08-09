@@ -1,10 +1,19 @@
 package com.oyuneticaret.utils;
 
+import com.oyuneticaret.dto.game.GameDTO;
+import com.oyuneticaret.dto.user.GameBasketFindSuccess;
+import com.oyuneticaret.dto.user.GameBasketSuccessDTO;
 import com.oyuneticaret.dto.user.UserDTO;
 import com.oyuneticaret.dto.user.UserSuccessDTO;
+import com.oyuneticaret.model.Game;
 import com.oyuneticaret.model.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserUtil {
+
+    GameUtil gameUtil = new GameUtil();
 
     public UserSuccessDTO createUserSuccessDTO(User user,String message){
         UserSuccessDTO userSuccessDTO = new UserSuccessDTO();
@@ -32,4 +41,27 @@ public class UserUtil {
         return userDTO;
     }
 
+    public GameBasketSuccessDTO createGameBasketSuccessDTO(Game game, User user, String message){
+        GameBasketSuccessDTO gameBasketSuccessDTO = new GameBasketSuccessDTO();
+
+        gameBasketSuccessDTO.setGame(gameUtil.convertGameDTO(game));
+        gameBasketSuccessDTO.setUser(convertUserDTO(user));
+        gameBasketSuccessDTO.setMessage(message);
+
+        return gameBasketSuccessDTO;
+    }
+
+    public GameBasketFindSuccess createGameBasketFindSuccess(User user){
+        GameBasketFindSuccess gameBasketFindSuccess = new GameBasketFindSuccess();
+        List<GameDTO> gameDTOS = new ArrayList<>();
+        UserDTO userDTO = convertUserDTO(user);
+        for (Game basketGame : user.getBasket()){
+            gameDTOS.add(gameUtil.convertGameDTO(basketGame));
+        }
+        gameBasketFindSuccess.setGames(gameDTOS);
+        gameBasketFindSuccess.setUser(userDTO);
+        gameBasketFindSuccess.setMessage("Listeleme İşlemi Başarılı.");
+
+        return gameBasketFindSuccess;
+    }
 }
