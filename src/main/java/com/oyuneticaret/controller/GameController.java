@@ -4,9 +4,11 @@ import com.oyuneticaret.dto.game.*;
 import com.oyuneticaret.dto.gamecompany.GameCompanyDTO;
 import com.oyuneticaret.model.Game;
 import com.oyuneticaret.model.GameCompany;
+import com.oyuneticaret.model.Types;
 import com.oyuneticaret.model.User;
 import com.oyuneticaret.service.GameCompanyService;
 import com.oyuneticaret.service.GameService;
+import com.oyuneticaret.service.TypeService;
 import com.oyuneticaret.service.UserService;
 import com.oyuneticaret.utils.GameUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class GameController {
 
     @Autowired
     private GameCompanyService gameCompanyService;
+
+    @Autowired
+    private TypeService typeService;
 
     private GameUtil gameUtil = new GameUtil();
 
@@ -119,6 +124,59 @@ public class GameController {
         gameService.delete(game);
 
         return ResponseEntity.ok(gameUtil.createGameSuccessDTO(game,"Silme İşlemi Başarılı."));
+    }
+
+    @RequestMapping(value = "/type/add" , method = RequestMethod.POST)
+    public ResponseEntity<?> addType(@RequestBody GameTypeCreateDTO gameTypeCreateDTO){
+
+        Game game = gameService.findGameById(gameTypeCreateDTO.getGameId());
+        if(game == null){
+            throw new IllegalArgumentException("Oyun Bulunamadı.");
+        }
+
+        Types type = typeService.listTypesById(gameTypeCreateDTO.getTypeId());
+        if(type == null){
+            throw new IllegalArgumentException("Oyun tipi bulunamadı.");
+        }
+
+        Set<Types> gameTypes = game.getTypes();
+        gameTypes.add(type);
+        game.setTypes(gameTypes);
+        gameService.save(game);
+
+        return ResponseEntity.ok(gameUtil.createGameTypeSuccessDTO(game,type,"Ekleme İşlemi Başarılı."));
+    }
+    @RequestMapping(value = "/type/list" , method = RequestMethod.GET)
+    public ResponseEntity<?> findTypes(@RequestParam Long gameId){
+        Game game = gameService.findGameById(gameId);
+
+        if(game == null){
+            throw new IllegalArgumentException("Oyun Bulunamadı");
+        }
+
+        return ResponseEntity.ok(gameUtil.createGameTypeFindSuccessDTO(game));
+    }
+
+    @RequestMapping(value = "/type/delete" , method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteType(@RequestParam Long gameId,
+                                        @RequestParam Long typeId){
+
+        Game game = gameService.findGameById(gameId);
+        if(game == null){
+            throw new IllegalArgumentException("Oyun Bulunamadı.");
+        }
+
+        Types type = typeService.listTypesById(typeId);
+        if(type == null){
+            throw new IllegalArgumentException("Oyun tipi bulunamadı.");
+        }
+
+        Set<Types> gameTypes = game.getTypes();
+        gameTypes.remove(type);
+        game.setTypes(gameTypes);
+        gameService.save(game);
+
+        return ResponseEntity.ok(gameUtil.createGameTypeSuccessDTO(game,type,"Silme İşlemi Başarılı."));
     }
 
 }

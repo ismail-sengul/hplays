@@ -1,18 +1,19 @@
 package com.oyuneticaret.utils;
 
-import com.oyuneticaret.dto.user.GameBasketSuccessDTO;
-import com.oyuneticaret.dto.game.GameDTO;
-import com.oyuneticaret.dto.game.GameFindSuccessDTO;
-import com.oyuneticaret.dto.game.GameSuccessDTO;
+import com.oyuneticaret.dto.game.*;
 import com.oyuneticaret.dto.gamecompany.GameCompanyDTO;
+import com.oyuneticaret.dto.type.TypeDTO;
 import com.oyuneticaret.model.Game;
 import com.oyuneticaret.model.GameCompany;
-import com.oyuneticaret.model.User;
+import com.oyuneticaret.model.Types;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class GameUtil {
+
+    TypeUtil typeUtil = new TypeUtil();
 
     public GameCompanyDTO convertGameCompanyDTO(GameCompany gameCompany){
         GameCompanyDTO gameCompanyDTO = new GameCompanyDTO();
@@ -59,5 +60,29 @@ public class GameUtil {
         return gameFindSuccessDTO;
     }
 
+    public GameTypeSuccessDTO createGameTypeSuccessDTO(Game game, Types type,String message){
+        GameTypeSuccessDTO gameTypeSuccessDTO = new GameTypeSuccessDTO();
+
+        gameTypeSuccessDTO.setGame(convertGameDTO(game));
+        gameTypeSuccessDTO.setType(typeUtil.convertTypeDTO(type));
+        gameTypeSuccessDTO.setMessage(message);
+
+        return gameTypeSuccessDTO;
+    }
+
+    public GameTypeFindSuccessDTO createGameTypeFindSuccessDTO(Game game){
+        GameTypeFindSuccessDTO gameTypeFindSuccessDTO = new GameTypeFindSuccessDTO();
+
+        List<TypeDTO> typeDTOS = new ArrayList<>();
+        for (Types type : game.getTypes()){
+            typeDTOS.add(typeUtil.convertTypeDTO(type));
+        }
+        gameTypeFindSuccessDTO.setGame(convertGameDTO(game));
+        gameTypeFindSuccessDTO.setTypes(typeDTOS);
+        gameTypeFindSuccessDTO.setMessage("Listeleme İşlemi Başarılı.");
+
+
+        return gameTypeFindSuccessDTO;
+    }
 
 }

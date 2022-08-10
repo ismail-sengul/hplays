@@ -1,13 +1,17 @@
 package com.oyuneticaret.dto.user;
 
-import com.oyuneticaret.dto.game.GameDTO;
-import com.oyuneticaret.dto.user.UserDTO;
+import java.io.Serializable;
+import java.util.List;
 
-public class GameBasketSuccessDTO {
+public class UserFriendFindSuccessDTO implements Serializable {
 
     private UserDTO user;
-    private GameDTO game;
+    private List<UserDTO> friends;
     private String message;
+
+    public List<UserDTO> getFriends() {
+        return friends;
+    }
 
     public UserDTO getUser() {
         return user;
@@ -17,12 +21,8 @@ public class GameBasketSuccessDTO {
         this.user = user;
     }
 
-    public GameDTO getGame() {
-        return game;
-    }
-
-    public void setGame(GameDTO game) {
-        this.game = game;
+    public void setFriends(List<UserDTO> friends) {
+        this.friends = friends;
     }
 
     public String getMessage() {

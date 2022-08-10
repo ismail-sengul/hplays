@@ -1,5 +1,6 @@
 package com.oyuneticaret.utils;
 
+import com.oyuneticaret.dto.type.TypeDTO;
 import com.oyuneticaret.dto.type.TypeFindDTO;
 import com.oyuneticaret.dto.type.TypeFindSuccessDTO;
 import com.oyuneticaret.dto.type.TypeSuccessDTO;
@@ -10,6 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TypeUtil {
+
+    public TypeDTO convertTypeDTO(Types type){
+        TypeDTO typeDTO = new TypeDTO();
+
+        typeDTO.setId(type.getId());
+        typeDTO.setName(type.getName());
+
+        return typeDTO;
+    }
     public TypeFindSuccessDTO createTypeFindSuccessDTO(List<Types> types){
         List<TypeFindDTO> foundedTypes = new ArrayList<TypeFindDTO>();
         for (Types type: types){

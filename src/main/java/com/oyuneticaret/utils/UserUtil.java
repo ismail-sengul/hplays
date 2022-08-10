@@ -1,10 +1,7 @@
 package com.oyuneticaret.utils;
 
 import com.oyuneticaret.dto.game.GameDTO;
-import com.oyuneticaret.dto.user.GameBasketFindSuccess;
-import com.oyuneticaret.dto.user.GameBasketSuccessDTO;
-import com.oyuneticaret.dto.user.UserDTO;
-import com.oyuneticaret.dto.user.UserSuccessDTO;
+import com.oyuneticaret.dto.user.*;
 import com.oyuneticaret.model.Game;
 import com.oyuneticaret.model.User;
 
@@ -41,27 +38,65 @@ public class UserUtil {
         return userDTO;
     }
 
-    public GameBasketSuccessDTO createGameBasketSuccessDTO(Game game, User user, String message){
-        GameBasketSuccessDTO gameBasketSuccessDTO = new GameBasketSuccessDTO();
+    public UserGameSuccessDTO createUserGameSuccessDTO(Game game, User user, String message){
+        UserGameSuccessDTO userGameSuccessDTO = new UserGameSuccessDTO();
 
-        gameBasketSuccessDTO.setGame(gameUtil.convertGameDTO(game));
-        gameBasketSuccessDTO.setUser(convertUserDTO(user));
-        gameBasketSuccessDTO.setMessage(message);
+        userGameSuccessDTO.setGame(gameUtil.convertGameDTO(game));
+        userGameSuccessDTO.setUser(convertUserDTO(user));
+        userGameSuccessDTO.setMessage(message);
 
-        return gameBasketSuccessDTO;
+        return userGameSuccessDTO;
     }
 
-    public GameBasketFindSuccess createGameBasketFindSuccess(User user){
-        GameBasketFindSuccess gameBasketFindSuccess = new GameBasketFindSuccess();
+    public UserGamesSuccessDTO createBasketFindSuccessDTO(User user){
+        UserGamesSuccessDTO userGamesSuccessDTO = new UserGamesSuccessDTO();
         List<GameDTO> gameDTOS = new ArrayList<>();
         UserDTO userDTO = convertUserDTO(user);
         for (Game basketGame : user.getBasket()){
             gameDTOS.add(gameUtil.convertGameDTO(basketGame));
         }
-        gameBasketFindSuccess.setGames(gameDTOS);
-        gameBasketFindSuccess.setUser(userDTO);
-        gameBasketFindSuccess.setMessage("Listeleme İşlemi Başarılı.");
+        userGamesSuccessDTO.setGames(gameDTOS);
+        userGamesSuccessDTO.setUser(userDTO);
+        userGamesSuccessDTO.setMessage("Sepet Listeleme İşlemi Başarılı");
 
-        return gameBasketFindSuccess;
+        return userGamesSuccessDTO;
+    }
+
+    public UserGamesSuccessDTO createWishlistFindSuccessDTO(User user){
+        UserGamesSuccessDTO userGamesSuccessDTO = new UserGamesSuccessDTO();
+        List<GameDTO> gameDTOS = new ArrayList<>();
+        UserDTO userDTO = convertUserDTO(user);
+        for (Game wishlistGame : user.getWishlist()){
+            gameDTOS.add(gameUtil.convertGameDTO(wishlistGame));
+        }
+        userGamesSuccessDTO.setGames(gameDTOS);
+        userGamesSuccessDTO.setUser(userDTO);
+        userGamesSuccessDTO.setMessage("İstek Listesi Listeleme İşlemi Başarılı");
+
+        return userGamesSuccessDTO;
+    }
+
+    public UserFriendSuccessDTO createUserFriendSuccessDTO(User mainUser,User friendUser,String message){
+        UserFriendSuccessDTO userFriendSuccessDTO = new UserFriendSuccessDTO();
+
+        userFriendSuccessDTO.setFriendUser(convertUserDTO(friendUser));
+        userFriendSuccessDTO.setMainUser(convertUserDTO(mainUser));
+        userFriendSuccessDTO.setMessage(message);
+
+        return userFriendSuccessDTO;
+    }
+
+    public UserFriendFindSuccessDTO createUserFriendFindSuccessDTO(User user){
+        UserFriendFindSuccessDTO userFriendFindSuccessDTO = new UserFriendFindSuccessDTO();
+        List<UserDTO> userDTOS = new ArrayList<>();
+
+        for (User friend : user.getFriends()){
+            userDTOS.add(convertUserDTO(friend));
+        }
+        userFriendFindSuccessDTO.setUser(convertUserDTO(user));
+        userFriendFindSuccessDTO.setFriends(userDTOS);
+        userFriendFindSuccessDTO.setMessage("Listeleme İşlemi Başarılı.");
+
+        return userFriendFindSuccessDTO;
     }
 }
